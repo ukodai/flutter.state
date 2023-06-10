@@ -8,6 +8,7 @@ class LoginProvider with ChangeNotifier {
 
   Future<bool> getLogged(String email, String password) async {
     _loading = true;
+    notifyListeners();
     try {
       Response response = await post(
         Uri.parse("https://reqres.in/api/login/"),
@@ -16,12 +17,16 @@ class LoginProvider with ChangeNotifier {
           "password": password,
         },
       );
+
       response.statusCode == 200 ? true : false;
+      notifyListeners();
     } catch (error) {
       _loading = false;
+      notifyListeners();
       return false;
     }
     _loading = false;
+    notifyListeners();
     return false;
   }
 }
